@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>하이엔드 웨딩 프로모션</title>
+  <style>
+    /* 기본 리셋 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      font-family: sans-serif;
+    }
+
+    /* 랜딩 이미지 섹션 */
+    .image-section {
+      
+      width: 100%;
+      /* 필요시 높이 고정할 수도 있음(height: 100vh;), 
+         현재는 이미지 원본 비율에 따라 자동 조정 */
+      overflow: hidden;
+    }
+    .image-section img {
+      width: 100%;
+      display: block;
+      height: auto;
+      object-fit: cover; /* 이미지 비율 유지 + 꽉 채우기 */
+    }
+
+    /* 폼 섹션(하단 고정) */
+    .form-section {
+      
+      bottom: 0;
+      left: 0;
+      width: 100%;           /* 좌우 여백 없이 꽉 채우기 */
+      background-color: #fff;
+      padding: 20px 10px;    /* 위아래=20, 좌우=10px 여백 */
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.15);
+      box-sizing: border-box;
+    }
+
+    /* 폼 내부 제목 */
+    .form-section h2 {
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+      text-align: center;
+      color: #000000;
+    }
+
+    /* 폼 그룹: 플로팅 라벨 디자인 */
+    .form-group {
+      position: relative;
+      margin-bottom: 20px;
+      background-color: #ffffff;
+    }
+
+    /* 입력 필드 */
+    /* .form-group input {
+      color: #000000;
+      width: 100%;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 14px 12px;
+      outline: none;
+      background-color: #fff;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus {
+      border-color: #000000;
+    } */
+
+    .form-group input {
+  width: 100%;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 12px 12px; /* 위아래 여백을 적당히 조정 */
+  outline: none;
+  background-color: #ffffff;
+  transition: border-color 0.2s;
+  color: #000;
+  line-height: 1.4; /* 수직 정렬을 맞추기 위한 line-height 설정 */
+}
+
+.form-group input:focus {
+  border-color: #505050;
+}
+
+    /* 라벨(플로팅) */
+    .form-group label {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      pointer-events: none;
+      color: #555555;
+      font-size: 1rem;
+      transition: 0.1s;
+      justify-content: center;
+
+    }
+    /* 값이 채워지거나 포커스되면 라벨 올라감 */
+    .form-group input:not(:placeholder-shown) + label,
+    .form-group input:focus + label {
+      top: -8px;
+      left: 12px;
+      font-size: 0.8rem;
+      background-color: #fff;
+      color: #555555;
+      padding: 0 4px;
+    }
+
+    /* 버튼 스타일 */
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      background-color: #555555;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #555555;
+    }
+
+    .privacy-policy {
+     font-size: 0.9rem;
+  color: #d80000;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* 체크박스와 텍스트가 동일 선상에 배치되도록 설정 */
+.privacy-policy label {
+  display: inline-flex; /* 인라인 플렉스 박스를 사용하여 체크박스와 텍스트를 같은 줄에 배치 */
+  align-items: center;  /* 세로 가운데 정렬 */
+  font-size: 0.9rem; /* 텍스트 크기 조정 */
+  color: #666; /* 텍스트 색상 */
+}
+
+.privacy-policy input[type="checkbox"] {
+  margin-right: 6px; /* 체크박스와 텍스트 사이의 간격 조정 */
+}
+
+.privacy-policy a {
+  color: #414141;
+  text-decoration: none;
+}
+
+.privacy-policy a:hover {
+  text-decoration: underline;
+}
+
+.privacy-policy-modal {
+    display: none; /* 기본적으로 숨겨놓음 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    padding-top: 60px;
+  }
+
+  .modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+    font-size: 0.7rem; /* 텍스트 크기 조정 */
+  }
+
+  .close-modal {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    transition: 0.3s;
+  }
+
+  .close-modal:hover,
+  .close-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  h3 {
+    margin-bottom: 15px;
+
+  }
+
+  /* 시간대 목록 스타일 */
+.time-options {
+  display: none;
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.time-options li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.time-options li:hover {
+  background-color: #f0f0f0;
+}
+
+
+    /* 반응형 - 태블릿 이상에서 폰트, 여백 키우기 등 */
+    @media (min-width: 768px) {
+      .form-section h2 {
+        font-size: 1.6rem;
+      }
+      .form-group input {
+        font-size: 1.05rem;
+      }
+    }
+
+    
+  </style>
+</head>
+<body>
+  <!-- 랜딩 이미지 섹션 -->
+  <div class="image-section">
+    <!-- 원하는 이미지 경로로 교체하세요 -->
+    <img src="images/wedding_landing.png" alt="랜딩 이미지" />
+  </div>
+
+  <!-- 하단 폼 섹션 -->
+  <div class="form-section">
+    <form id="consultation-form">
+      <!-- 이름 -->
+      <div class="form-group">
+        <input type="text" id="name" name="name" placeholder=" " required />
+        <label for="name">이름</label>
+      </div>
+      <!-- 연락처 -->
+      <div class="form-group">
+        <input type="tel" id="contact" name="contact" placeholder=" " required />
+        <label for="contact">전화번호</label>
+      </div>
+      <!-- 상담 가능 시간 -->
+      <!-- <div class="form-group">
+        <input type="text" id="time" name="time" placeholder=" " />
+        <label for="time">상담 가능 시간 (아침 10시 - 저녁 8시)</label>
+      </div> -->
+
+      <div class="form-group">
+        <input type="text" id="time" name="time" placeholder="상담 가능 시간" readonly />
+        <label for="time"></label>
+        
+        <!-- 시간대 목록 -->
+        <ul id="time-options" class="time-options">
+          <li>10:00 ~ 11:00</li>
+          <li>11:00 ~ 12:00</li>
+          <li>12:00 ~ 13:00</li>
+          <li>13:00 ~ 14:00</li>
+          <li>14:00 ~ 15:00</li>
+          <li>15:00 ~ 16:00</li>
+          <li>16:00 ~ 17:00</li>
+          <li>17:00 ~ 18:00</li>
+          <li>18:00 ~ 19:00</li>
+          <li>19:00 ~ 20:00</li>
+        </ul>
+      </div>
+
+<!-- 개인 정보 처리 방침 안내 -->
+<div class="privacy-policy">
+  <label>
+    <input type="checkbox" id="privacy-policy-checkbox" />
+    (필수) <a href="javascript:void(0);" id="privacy-policy-link">개인 정보 처리 방침</a>에 동의합니다.
+  </label>
+</div>
+
+
+<!-- 개인 정보 처리 방침 모달 (박스) -->
+<div id="privacy-policy-modal" class="privacy-policy-modal">
+  <div class="modal-content">
+    <span id="close-modal" class="close-modal">&times;</span>
+    <h3>개인 정보 처리 방침</h3>
+    <p>회사는 개인정보 보호법 제30조에 따라 다음과 같이 개인정보 처리지침을 수립, 공개합니다. 
+      제 1조 (개인정보의 처리목적) 회사는 다음의 목적을 위하여 개인정보를 처리하고 있으며, 
+      해당 목적 이외의 용도로는 이용하지 않습니다. 환자의 치료와 보험청구 / 서비스 제공에 관한 계약이행 및 제공 / 
+      본인확인 및 불량회원의 부정 이용방지 / 불만 처리 등 민원처리 및 고지사항전달 / 마케팅 및 광고 활용, 
+      이벤트 및 광고성 정보 제공 및 참여기회 제공 
+      제 2조 (개인정보의 처리 및 보유기간) 회사는 법령에 따른 개인정보 보유, 
+      이용 기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받은 개인정보 보유, 이용 기간 내에서 개인정보를 처리, 보유합니다. 
+      각각의 개인정보 처리 및 보유 기간은 다음과 같습니다. 진료기록부 등 진단 및 치료를 위한 의료법에 기준에 준함 / 수집 목적 또는 
+      제공받은 목적이 달성된 경우에도 기타 법령의 규정에 따라 개인정보를 보유할 수 있음 
+      제 3조 (개인정보의 제 3자 제공) 회사는 정보주체의 동의, 법률의 특별한 규정 등 
+      개인정보 보호법 제17조에 해당하는 경우에만 개인정보를 제3자에게 제공합니다. 회사는 다음과 같이 개인정보를 제3자에게 제공하고 있습니다. 
+      개인정보를 제공받는자 :  회사 , , <에스원> 제 4조 (처리하는 개인정보 항목) 회사는 목다음의 개인정보 항목을 처리하고 있습니다. 
+      수집항목 : 성명, 생년월일, 주소, 전화번호, 성별 외 환자 진료에 필요한 정보선택항목 : 가입경로, 내원목적, 
+      시술전후 사진 등 환자의 치료 경과 정보제 5조 (개인정보의 파기) 회사는 개인정보 보유 기간의 경과, 처리목적 달성 등 개인정보가 
+      불필요하게 되었을 때에는 지체없이 해당 개인정보를 파기합니다. 정보주체로부터 동의 받은 개인정보보 보유 기간이 경과하거나 
+      처리목적이 달성되었음에도 불구하고 다른 법령에 따라 개인정보를 계속 보존하여야 하는 경우에는 보존합니다. 
+      회사는 전자적 파일 형태로 기록, 저장된 개인정보는 파일삭제 및 저장매체 포맷, 종이 문서에 기록, 저장된 
+      개인정보는 분쇄기로 분쇄하거나 소각하여 파기합니다. 제 6조 (개인정보의 안정성 확보조치) 회사는 개인정보의 
+      안정성 확보를 위해 다음과 같은 조치를 하고 있습니다. 1.관리적 조치 : 내부관리계획 수립 및 시행, 정기적 직원 교육 등 
+      2.기술적 조치 : 개인정보처리시스템 등의 접근 권한 관리, 접근통제시스템 설치, 고유 식별정보 등의 암호화, 보안프로그램 설치 
+      3.물리적 조치 : 전산실, 자료보관실 등의 접근통제 제 7조 (개인정보 보호책임자) 회사는 개인정보 처리에 관한 업무를 
+      총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만 처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다. <br>
+      <br>
+      (개인정보 보호책임자 성명 : 대표자 / 직책 : 원장) <br>제 8조 (개인정보 처리방침 시행 및 변경) 이 개인정보 처리방침은 2024. 09. 01부터 적용됩니다.</p>
+  </div>
+</div>
+
+
+
+      <button type="submit">웨딩 프로모션 상담받기</button>
+    </form>
+  </div>
+
+  
+
+  <script>
+
+
+    document.getElementById('consultation-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // 기본 폼 제출 동작 방지
+
+    const name = document.getElementById('name').value;
+    const contact = document.getElementById('contact').value;
+    const time = document.getElementById('time').value;
+
+    // 구글 스프레드시트로 데이터를 전송할 웹 앱 URL (배포한 URL을 여기 넣으세요)
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyhY_Q1S85eBN20CMio9zTvCZJlsxC3j9UqE4AtD-0lQdlmAMnm5SzhqF2zBCuYLDdT/exec';
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('contact', contact);
+    formData.append('time', time);
+
+    fetch(scriptURL, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.text())
+    .then(result => {
+      alert('성공적으로 제출되었습니다!');
+      // 폼 제출 후 필드를 비웁니다.
+      document.getElementById('consultation-form').reset();
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('서버 오류가 발생했습니다.');
+    });
+  });
+
+  const link = document.getElementById('privacy-policy-link');
+  const modal = document.getElementById('privacy-policy-modal');
+  const closeModal = document.getElementById('close-modal');
+  const message = document.getElementById('privacy-agreement-message');
+  const checkbox = document.getElementById('privacy-policy-checkbox');
+
+  // 링크 클릭 시 모달 열기
+  link.addEventListener('click', function() {
+    modal.style.display = 'block';
+  });
+
+  // 모달 닫기 버튼 클릭 시 모달 닫기
+  closeModal.addEventListener('click', function() {
+    modal.style.display = 'none';
+  });
+
+  // 모달 외부 클릭 시 모달 닫기
+  window.addEventListener('click', function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+
+  // 시간대 목록 표시 및 선택
+const timeInput = document.getElementById('time');
+const timeOptions = document.getElementById('time-options');
+timeInput.addEventListener('click', function() {
+  timeOptions.style.display = 'block'; // 시간대 목록 표시
+});
+
+// 시간대 선택 시 입력 필드에 시간 반영
+const timeItems = timeOptions.getElementsByTagName('li');
+for (let i = 0; i < timeItems.length; i++) {
+  timeItems[i].addEventListener('click', function() {
+    timeInput.value = timeItems[i].innerText;
+    timeOptions.style.display = 'none'; // 목록 숨기기
+  });
+}
+
+// 시간대 목록 외부 클릭 시 숨기기
+window.addEventListener('click', function(event) {
+  if (!timeInput.contains(event.target)) {
+    timeOptions.style.display = 'none';
+  }
+});
+
+
+  
+
+  
+
+   
+  </script>
+</body>
+</html>
+
